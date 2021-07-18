@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="X-UA-Compatible"
+            content="IE=edge" />
+      <meta name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+      <link type="text/css" rel="stylesheet" href="style.css?version=1.0">
+      <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Home Page</title>
+  </head>
+  <body>
+    <nav>
+       <div class="logo">SwiftBank</div>
+       <input type="checkbox" id="click">
+       <label for="click" class="menu-btn">
+       <i class="fas fa-bars"></i>
+       </label>
+       <ul>
+       <li><a class="active" href="index.html">Home</a></li>
+       <li><a>About</a></li>
+       <li><a>Services</a></li>
+       <li><a>Contact</a></li>
+       <li><a>Feedback</a></li>
+      </ul>
+    </nav>
+    <br>
+
+    <div id="div2">
+      <h1 id="heading">Welcome to Swift Bank</h1><br>
+      <span id="subtext1" >We are here today and always..</span><br>
+      <span id="subtext2">For You!</span>
+      <br><br><br>
+      <form action="customers.php" method="Post">
+        <input id="btn" type="submit" name="view_customer" value="Customers" />
+      </form>
+    </div>
+
+    <script>
+      document.querySelector(".menu-btn").addEventListener("click",function(){
+        var checkBox = document.getElementById("click");
+        if(checkBox.checked==true)
+          document.getElementById("div2").style.display="block";
+          else
+            document.getElementById("div2").style.display="none";
+      })
+    </script>
+  </body>
+</html>
