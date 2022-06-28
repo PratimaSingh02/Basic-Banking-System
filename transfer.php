@@ -43,7 +43,7 @@ if(!isset($_POST['Transfer']) && !isset($_POST['Send'])){//these both are not st
   	if(!$conn->connect_error){
   		$sender_cid=$_GET['cids'];
   		$receiver_cid=$_GET['cidr'];
-  		$sql1="select account_balance,account_number from account_ where cid=$sender_cid";
+  		$sql1="select account_balance,account_number from account_ where cid='$sender_cid';";
   		$result1=$conn->query($sql1);
      if($result1->num_rows>0){
   		 while($row1=$result1->fetch_assoc()){
@@ -58,26 +58,26 @@ if(!isset($_POST['Transfer']) && !isset($_POST['Send'])){//these both are not st
            <?php
          }//if value entered is not numeric
   			 if($_POST['amount']<=$account_balance){
-  				 $sql3="select branch_ifsc from branch where branch_id=(select branch_id from account_ where cid=$sender_cid)";
+  				 $sql3="select branch_ifsc from branch where branch_id=(select branch_id from account_ where cid='$sender_cid');";
   			   $result3=$conn->query($sql3);
   			   while($row3=$result3->fetch_assoc())
   			   $sender_ifsc=$row3['branch_ifsc'];
-  			  $sql4="select branch_ifsc from branch where branch_id=(select branch_id from account_ where cid=$receiver_cid)";
+  			  $sql4="select branch_ifsc from branch where branch_id=(select branch_id from account_ where cid='$receiver_cid');";
   			   $result4=$conn->query($sql4);
   			   while($row4=$result4->fetch_assoc())
   			     $receiver_ifsc=$row4['branch_ifsc'];
   			     $amount=$_POST['amount'];
   			   $sender_acc=$row1['account_number'];
-  			   $sql5="select account_number from account_ where cid=$receiver_cid";
+  			   $sql5="select account_number from account_ where cid='$receiver_cid';";
   			   $result5=$conn->query($sql5);
   			   while($row5=$result5->fetch_assoc())
   			     $receiver_acc=$row5['account_number'];
-  			       $date_time=strval(date("Y-m-d"));
+  			       $date_time=strval(date("Y-m-d H:i:s"));
   			       //echo $date_time;
-  			       $sql6="insert into transaction(sender_account_number,receiver_account_number,sender_ifsc,receiver_ifsc,amount,date_time,payment_method_id) values($sender_acc,$receiver_acc,'$sender_ifsc','$receiver_ifsc',$amount,'$date_time',1)";
+  			       $sql6="insert into transaction(sender_account_number,receiver_account_number,sender_ifsc,receiver_ifsc,amount,date_time) values($sender_acc,$receiver_acc,'$sender_ifsc','$receiver_ifsc',$amount,'$date_time')";
   						 if($conn->query($sql6)){
-  		 	        $sql7="update account_ set account_balance=account_balance+$amount where account_number=$receiver_acc";
-  		 	        $sql8="update account_ set account_balance=account_balance-$amount where account_number=$sender_acc";
+  		 	        $sql7="update account_ set account_balance=account_balance+$amount where account_number='$receiver_acc';";
+  		 	        $sql8="update account_ set account_balance=account_balance-$amount where account_number='$sender_acc';";
   		 	        if($conn->query($sql7) && $conn->query($sql8)){
   								?>
   								<div class="popup">
@@ -125,11 +125,11 @@ if(!isset($_POST['Transfer']) && !isset($_POST['Send'])){//these both are not st
   	if(!$conn->connect_error){
   	$s=$_GET['cids'];
   	$r=$_GET['cidr'];
-    $sql1="select account_balance from account_ where cid=$s";
+    $sql1="select account_balance from account_ where cid='$s';";
     $result1=$conn->query($sql1);
     if($result1->num_rows>0){
       while($row1=$result1->fetch_assoc()){
-    $sql2="select first_name,last_name from customer where cid=$r";
+    $sql2="select first_name,last_name from customer where cid='$r';";
     $result2=$conn->query($sql2);
     if($result2->num_rows>0){
       while($row2=$result2->fetch_assoc()){
@@ -179,8 +179,8 @@ if(!isset($_POST['Transfer']) && !isset($_POST['Send'])){//these both are not st
   	<?php
   }//if
   else{
-  	$c=(int)$_GET['cid'];
-  	$sql="select cid,first_name,last_name from customer where cid!=$c";
+  	$c=$_GET['cid'];
+  	$sql="select cid,first_name,last_name from customer where cid!='$c';";
   	$result=$conn->query($sql);
   		if($result->num_rows>0){
   		?>

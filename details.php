@@ -49,9 +49,10 @@
   }
   else{
   	$cid=$_GET['cid'];
-  	$sql="select * from customer where cid=$cid";
-  	$bal="select account_balance from account_ where account_.cid=$cid;";
-  	$result=$conn->query($sql);
+  	$sql="select * from customer where cid='$cid';";
+  	$bal="select account_balance from account_ where cid='$cid';";
+  	$result=$conn->query($sql) or die($conn->error);;
+    // echo $conn->query($sql);
   	$bal_result=$conn->query($bal);
   	if($result->num_rows>0){
   		$row=$result->fetch_assoc();
@@ -107,7 +108,7 @@
   </div>
 
   <?php
-  $sql_a="select account_number from account_ where cid=$cid";
+  $sql_a="select account_number from account_ where cid='$cid';";
   $result_a=$conn->query($sql_a);
   if($result_a->num_rows>0){
   	while($rowa=$result_a->fetch_assoc())
